@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -49,6 +50,38 @@ export class AuthService {
       return { message: 'Email verified successfully' };
     } catch (error) {
       throw new UnauthorizedException('Invalid or expired token');
+    }
+  }
+
+  async validateUser(email: string, password: string): Promise<any> {
+    const user = await this.usersRepository.findOne({ where: { email } });
+    if (user && (await bcrypt.compare(password, user.password))) {
+      const { password, ...result } = user;
+      return result;
+    }
+    return null;
+  }
+
+  async login(user: any) {
+    const payload = { email: user.email, sub: user.id };
+    return {
+      access_token: this.jwtService.sign(payload),
+      refresh_token: this.jwtService.sign(payload, { expiresIn: '7d' }),
+    };
+  }
+
+  async refreshToken(refreshToken: string) {
+    try {
+      const payload = this.jwtService.verify(refreshToken);
+      const user = await this.usersRepository.findOne({
+        where: { id: payload.sub },
+      });
+      if (!user) {
+        throw new UnauthorizedException();
+      }
+      return this.login(user);
+    } catch (error) {
+      throw new UnauthorizedException('Invalid refresh token');
     }
   }
 }
