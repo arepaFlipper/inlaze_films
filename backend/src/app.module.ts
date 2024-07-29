@@ -25,13 +25,6 @@ import { User } from './users/entities/user.entity';
           synchronize: configService.get<string>('NODE_ENV') !== 'production',
         };
 
-        console.log('Database Configuration:');
-        console.log('Host:', dbConfig.host);
-        console.log('Port:', dbConfig.port);
-        console.log('Username:', dbConfig.username);
-        console.log('Password:', dbConfig.password ? '[REDACTED]' : 'Not set');
-        console.log('Database:', dbConfig.database);
-
         return dbConfig;
       },
       inject: [ConfigService],
