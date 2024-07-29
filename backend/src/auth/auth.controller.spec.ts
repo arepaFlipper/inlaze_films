@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { LoginUserDto } from './dto/login-user.dto';
-import { ConflictException } from '@nestjs/common';
+import { ConflictException, UnauthorizedException } from '@nestjs/common';
 
 describe('AuthController', () => {
   let controller: AuthController;
@@ -16,6 +16,8 @@ describe('AuthController', () => {
           provide: AuthService,
           useValue: {
             register: jest.fn(),
+            verifyEmail: jest.fn(),
+            login: jest.fn(),
           },
         },
       ],
@@ -49,6 +51,29 @@ describe('AuthController', () => {
 
       await expect(controller.register(registerDto)).rejects.toThrow(ConflictException);
       expect(authService.register).toHaveBeenCalledWith(registerDto.email, registerDto.password);
+    });
+  });
+
+  describe('verifyEmail', () => {
+    it('should verify email successfully', async () => {
+      const result = { message: 'Email verified successfully' };
+      const token = 'valid-token';
+      
+      jest.spyOn(authService, 'verifyEmail').mockImplementation(async () => result);
+
+      expect(await controller.verifyEmail(token)).toBe(result);
+      expect(authService.verifyEmail).toHaveBeenCalledWith(token);
+    });
+
+    it('should throw an unauthorized exception for invalid or expired token', async () => {
+      const token = 'invalid-token';
+      
+      jest.spyOn(authService, 'verifyEmail').mockImplementation(() => {
+        throw new UnauthorizedException('Invalid or expired token');
+      });
+
+      await expect(controller.verifyEmail(token)).rejects.toThrow(UnauthorizedException);
+      expect(authService.verifyEmail).toHaveBeenCalledWith(token);
     });
   });
 });
