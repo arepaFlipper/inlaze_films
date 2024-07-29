@@ -33,7 +33,10 @@ describe('AuthController', () => {
 
   describe('register', () => {
     it('should register a new user successfully', async () => {
-      const result = { message: 'User registered successfully' };
+      const result = { 
+        message: 'User registered successfully', 
+        verificationToken: 'valid-verification-token'
+      };
       const registerDto: LoginUserDto = { email: 'test@example.com', password: 'password123' };
       
       jest.spyOn(authService, 'register').mockImplementation(async () => result);
@@ -76,5 +79,30 @@ describe('AuthController', () => {
       expect(authService.verifyEmail).toHaveBeenCalledWith(token);
     });
   });
-});
 
+  describe('login', () => {
+    it('should return login tokens successfully', async () => {
+      const result = {
+        access_token: 'access-token',
+        refresh_token: 'refresh-token'
+      };
+      const loginDto: LoginUserDto = { email: 'test@example.com', password: 'password123' };
+      
+      jest.spyOn(authService, 'login').mockImplementation(async () => result);
+
+      expect(await controller.login(loginDto)).toBe(result);
+      expect(authService.login).toHaveBeenCalledWith(loginDto);
+    });
+
+    it('should throw an unauthorized exception for invalid credentials', async () => {
+      const loginDto: LoginUserDto = { email: 'test@example.com', password: 'wrong-password' };
+      
+      jest.spyOn(authService, 'login').mockImplementation(() => {
+        throw new UnauthorizedException('Invalid credentials');
+      });
+
+      await expect(controller.login(loginDto)).rejects.toThrow(UnauthorizedException);
+      expect(authService.login).toHaveBeenCalledWith(loginDto);
+    });
+  });
+});

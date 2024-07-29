@@ -27,13 +27,14 @@ export class AuthService {
     const user = this.usersRepository.create({ email, password });
     await this.usersRepository.save(user);
 
-    await this.sendVerificationEmail(user);
+    const verificationToken = await this.sendVerificationEmail(user);
 
-    return { message: 'User registered successfully' };
+    return { message: 'User registered successfully', verificationToken };
   }
 
   async sendVerificationEmail(user: User) {
     const token = this.jwtService.sign({ sub: user.id }, { expiresIn: '2d' });
+    return token;
   }
 
   async verifyEmail(token: string) {
