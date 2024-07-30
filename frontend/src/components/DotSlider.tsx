@@ -16,6 +16,7 @@ const DotSlider = () => {
             className={`${(selectedPage === `${index}`) ? selectedStyles : "bg-gray-500 aspect-square rounded-full"} w-3 h-3 `}
             href="#home"
             onClick={() => setSelectedPage('1')}
+            key={index}
           />
         )
       })}

@@ -54,7 +54,7 @@ export default function App() {
         <main className="w-4/5 p-4">
           {carousels.map(({ label, collection }) => {
             return (
-              <Carousel label={label} collection={collection} />
+              <Carousel key={label} label={label} collection={collection} />
             );
           })}
         </main>
