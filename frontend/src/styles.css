@@ -1,0 +1,11 @@
+.App {
+  font-family: sans-serif;
+}
+
+.App h1 {
+  text-align: center;
+}
+
+.App li {
+  padding-bottom: 15px;
+}
