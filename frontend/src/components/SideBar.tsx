@@ -37,9 +37,7 @@ const SideBar = () => {
       <input type="text" placeholder="Keywords" className="w-full p-2 mb-2 bg-[#1C1C1C] text-zinc-50" />
       <hr />
       <Dropdown options={genres} />
-      <hr />
       <Dropdown options={sorter} />
-      <hr />
       <SlideBar />
     </aside>
   )

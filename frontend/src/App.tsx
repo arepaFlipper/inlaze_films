@@ -4,6 +4,7 @@ import Hero from "./components/Hero";
 import SideBar from "./components/SideBar";
 import Navbar from "./components/Navbar";
 import Carousel from "./components/Carousel";
+import Popup from './components/Popup';
 import { TMovie } from "./types";
 
 
@@ -14,6 +15,8 @@ export default function App() {
   const [upcomingMovies, setUpcomingMovies] = useState([])
   const [topRatedMovies, setTopRatedMovies] = useState([])
   const [favoriteMovies, setFavoriteMovies] = useState([])
+
+  const [showPopup, setShowPopup] = useState(true);
 
 
   useEffect(() => {
@@ -56,6 +59,7 @@ export default function App() {
           })}
         </main>
       </div>
+      <Popup show={showPopup} onClose={() => setShowPopup(false)} />
     </div>
   )
 }
