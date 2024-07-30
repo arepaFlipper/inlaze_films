@@ -18,17 +18,25 @@ const Movie = ({ movie }: Props) => {
   }, [movie]);
 
   return (
-    <div
-      key={movie.id}
-      className="flex-shrink-0 flex flex-col w-[200px] h-[335px] md:items-start items-center"
-    >
-      <img className="h-[223px] w-full object-cover" src={`http://image.tmdb.org/t/p/w200/${movie.backdrop_path}`} alt="placeholder" />
-      <h3 className="font-bold text-xs text-wrap text-center mt-2">{movie.title}</h3>
-      {details && (
-        <h6 className="text-[0.5rem] text-center">
-          {details.genres.map(({ name }) => name).join(", ")}
-        </h6>
-      )}
+    <div key={movie.id} className="flex-shrink-0 flex flex-col w-[200px] bg-[#262626] rounded-lg overflow-hidden shadow-md">
+      <img
+        className="w-full h-[260px] object-cover"
+        src={`http://image.tmdb.org/t/p/w200/${movie.poster_path}`}
+        alt={movie.title}
+      />
+      <div className="p-3 flex flex-col">
+        <h3 className="font-bold text-sm text-white mb-1">{movie.title}</h3>
+        <p className="text-xs text-gray-400 mb-2">
+          {new Date(movie.release_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+        </p>
+        <div className="flex justify-between items-center">
+          <span className="text-sm font-bold text-white">{movie.vote_average.toFixed(0)}%</span>
+          <div>
+            <button className="text-xl mr-2">❤️</button>
+            <button className="text-xl">🔖</button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

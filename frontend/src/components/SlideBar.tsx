@@ -1,6 +1,5 @@
-type Props = {}
 
-const SlideBar = (props: Props) => {
+const SlideBar = () => {
   return (
     <div className="mb-4">
       <h2 className="text-xl mb-2">User Score</h2>
