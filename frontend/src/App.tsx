@@ -4,9 +4,11 @@ import Hero from "./components/Hero";
 import SideBar from "./components/SideBar";
 import Navbar from "./components/Navbar";
 import Carousel from "./components/Carousel";
+import { TMovie } from "./types";
 
 
 export default function App() {
+  const [movies, setMovies] = useState<TMovie[]>([])
   const [popularMovies, setPopularMovies] = useState([])
   const [nowPlayingMovies, setNowPlayingMovies] = useState([])
   const [upcomingMovies, setUpcomingMovies] = useState([])
@@ -18,9 +20,8 @@ export default function App() {
 
     const fetchMovies = async () => {
       const response = await fetch_movies();
-      console.log(`🍔%cApp.tsx:25 - response`, 'font-weight:bold; background:#679800;color:#fff;'); //DELETEME:
-      console.log(response.data); // DELETEME:
       if (response.status === 200) {
+        setMovies(response.data.popular);
         setPopularMovies(response.data.popular);
         setNowPlayingMovies(response.data.now_playing);
         setUpcomingMovies(response.data.upcoming);
@@ -42,10 +43,12 @@ export default function App() {
   return (
     <div className="w-full h-full bg-[#292929] text-white">
       <Navbar labels={carousels} />
+      {(movies.length > 0) && (
+        <Hero collection={movies} />
+      )}
       <div className="flex">
         <SideBar />
         <main className="w-4/5 p-4">
-          <Hero src="" description="" title="" alt="" />
           {carousels.map(({ label, collection }) => {
             return (
               <Carousel label={label} collection={collection} />
