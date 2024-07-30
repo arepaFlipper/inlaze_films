@@ -21,7 +21,6 @@ try:
 
     # Check the response
     if response.status_code == 201:  # Assuming 201 Created is returned on successful registration
-        print("Registration successful!")
         print("Response:", response.json())
     else:
         print("Registration failed.")

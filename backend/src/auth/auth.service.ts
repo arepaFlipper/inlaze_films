@@ -8,14 +8,21 @@ import { Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { ConfigService } from '@nestjs/config';
+import axios from 'axios';
 
 @Injectable()
 export class AuthService {
+  private tmdbApiKey: string;
+
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
     private jwtService: JwtService,
-  ) {}
+    private configService: ConfigService,
+  ) {
+    this.tmdbApiKey = this.configService.get<string>('TMDB_API_KEY');
+  }
 
   async register(email: string, password: string) {
     const existingUser = await this.usersRepository.findOne({
@@ -24,12 +31,24 @@ export class AuthService {
     if (existingUser) {
       throw new ConflictException('Email already exists');
     }
+    const hashedPassword = await bcrypt.hash(password, 10);
     const user = this.usersRepository.create({ email, password });
     await this.usersRepository.save(user);
 
+    const guestSessionId = await this.createGuestSession();
+
+    user.guestSessionId = guestSessionId;
+    await this.usersRepository.save(user);
+    console.log(`🎒%cauth.service.ts:42 - guestSessionId`,'font-weight:bold; background:#8a7500;color:#fff;'); //DELETEME:
+    console.log(guestSessionId); // DELETEME:
+
     const verificationToken = await this.sendVerificationEmail(user);
 
-    return { message: 'User registered successfully', verificationToken };
+    return {
+      message: 'User registered successfully',
+      verificationToken,
+      guestSessionId,
+    };
   }
 
   async sendVerificationEmail(user: User) {
@@ -83,6 +102,20 @@ export class AuthService {
       return this.login(user);
     } catch (error) {
       throw new UnauthorizedException('Invalid refresh token');
+    }
+  }
+
+  private async createGuestSession(): Promise<string> {
+    try {
+      const response = await axios.get(
+        `https://api.themoviedb.org/3/authentication/guest_session/new?api_key=${this.tmdbApiKey}`,
+        { headers: { accept: 'application/json' } },
+      );
+      console.log(`🛵%cauth.service.ts:114 - response.data`,'font-weight:bold; background:#c63900;color:#fff;'); //DELETEME:
+      console.log(response.data); // DELETEME:
+      return response.data.guest_session_id;
+    } catch (error) {
+      throw new Error('Failed to create guest session');
     }
   }
 }

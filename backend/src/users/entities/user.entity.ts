@@ -6,8 +6,8 @@ import {
   OneToMany,
 } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
-import { Rating } from 'src/movies/entities/rating.entity';
-import { Favorite } from 'src/favorites/entities/favorite.entity';
+import { Rating } from '../../movies/entities/rating.entity';
+import { Favorite } from '../../favorites/entities/favorite.entity';
 
 @Entity()
 export class User {
@@ -33,4 +33,7 @@ export class User {
   async hashPassword() {
     this.password = await bcrypt.hash(this.password, 10);
   }
+
+  @Column({ nullable: true })
+  guestSessionId?: string;
 }
