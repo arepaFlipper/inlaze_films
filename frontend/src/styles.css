@@ -1,7 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .App {
   font-family: sans-serif;
 }
-
 .App h1 {
   text-align: center;
 }
