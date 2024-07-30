@@ -32,7 +32,7 @@ const SideBar = () => {
     "Release Date Descending",
   ];
   return (
-    <aside className="w-1/4 p-4 bg-[#333333]">
+    <aside className="w-1/5 p-4 bg-[#333333]">
       <h2 className="text-xl mb-2">Search</h2>
       <input type="text" placeholder="Keywords" className="w-full p-2 mb-2" />
       <hr />

@@ -7,7 +7,6 @@ import Carousel from "./components/Carousel";
 
 
 export default function App() {
-  const [movies, setMovies] = useState([])
   const [popularMovies, setPopularMovies] = useState([])
   const [nowPlayingMovies, setNowPlayingMovies] = useState([])
   const [upcomingMovies, setUpcomingMovies] = useState([])
@@ -22,7 +21,6 @@ export default function App() {
       console.log(`🍔%cApp.tsx:25 - response`, 'font-weight:bold; background:#679800;color:#fff;'); //DELETEME:
       console.log(response.data); // DELETEME:
       if (response.status === 200) {
-        setMovies(response.data.results);
         setPopularMovies(response.data.popular);
         setNowPlayingMovies(response.data.now_playing);
         setUpcomingMovies(response.data.upcoming);
@@ -42,11 +40,11 @@ export default function App() {
   ];
 
   return (
-    <div className="w-screen h-full bg-[#292929] text-white">
+    <div className="w-full h-full bg-[#292929] text-white">
       <Navbar labels={carousels} />
       <div className="flex">
         <SideBar />
-        <main className="w-3/4 p-4">
+        <main className="w-4/5 p-4">
           <Hero src="" description="" title="" alt="" />
           {carousels.map(({ label, collection }) => {
             return (
