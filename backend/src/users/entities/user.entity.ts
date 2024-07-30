@@ -1,5 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  BeforeInsert,
+  OneToMany,
+} from 'typeorm';
 import * as bcrypt from 'bcryptjs';
+import { Rating } from 'src/movies/entities/rating.entity';
+import { Favorite } from 'src/favorites/entities/favorite.entity';
 
 @Entity()
 export class User {
@@ -8,6 +16,12 @@ export class User {
 
   @Column({ unique: true })
   email: string;
+
+  @OneToMany(() => Rating, (rating: Rating) => rating.user)
+  ratings: Rating[];
+
+  @OneToMany(() => Favorite, (favorite: Favorite): User => favorite.user)
+  favorites: Favorite[];
 
   @Column()
   password: string;
