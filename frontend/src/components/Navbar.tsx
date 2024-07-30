@@ -1,17 +1,19 @@
 import logo from '../../public/inlaze_logo.png'
 
 type Props = {
-  labels: string[];
+  labels: {
+    label: string;
+  }[]
 };
 
-const Navbar = ({labels}: Props) => {
+const Navbar = ({ labels }: Props) => {
   return (
     <div className="flex justify-evenly">
       <img src={logo} alt="inlaze_logo" />
       {
-        labels.map((label: string)=>{
+        labels.map(({ label }: { label: string }, idx) => {
           return (
-            <div className='flex items-center'>
+            <div key={`${label}-${idx}`} className='flex items-center'>
               <h2 className=''>{label}</h2>
             </div>
           )
