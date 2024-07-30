@@ -1,36 +1,58 @@
-// import Instructions from "./Intructions";
 import { useEffect, useState } from "react";
 import fetch_movies from "./utils/get_movies";
+import Hero from "./components/Hero";
 import SideBar from "./components/SideBar";
 import Navbar from "./components/Navbar";
+import Carousel from "./components/Carousel";
 
 
 export default function App() {
   const [movies, setMovies] = useState([])
+  const [popularMovies, setPopularMovies] = useState([])
+  const [nowPlayingMovies, setNowPlayingMovies] = useState([])
+  const [upcomingMovies, setUpcomingMovies] = useState([])
+  const [topRatedMovies, setTopRatedMovies] = useState([])
+  const [favoriteMovies, setFavoriteMovies] = useState([])
 
 
   useEffect(() => {
 
     const fetchMovies = async () => {
       const response = await fetch_movies();
+      console.log(`🍔%cApp.tsx:25 - response`, 'font-weight:bold; background:#679800;color:#fff;'); //DELETEME:
+      console.log(response.data); // DELETEME:
       if (response.status === 200) {
         setMovies(response.data.results);
+        setPopularMovies(response.data.popular);
+        setNowPlayingMovies(response.data.now_playing);
+        setUpcomingMovies(response.data.upcoming);
+        setTopRatedMovies(response.data.top_rated);
+        setFavoriteMovies(response.data.favorites);
       }
     }
     fetchMovies();
   }, [])
 
-  useEffect(() => {
-    console.log(`🖍️%cApp.tsx:21 - movies`, 'font-weight:bold; background:#5ca300;color:#fff;'); //DELETEME:
-    console.log(movies); // DELETEME:
-  }, [movies])
+  const carousels = [
+    { label: "Popular", collection: popularMovies },
+    { label: "Now Playing", collection: nowPlayingMovies },
+    { label: "Upcoming", collection: upcomingMovies },
+    { label: "Top Rated", collection: topRatedMovies },
+    { label: "Favorites", collection: favoriteMovies },
+  ];
 
   return (
-   <div className="w-screen h-full bg-[#292929] text-white">
-      <Navbar />
+    <div className="w-screen h-full bg-[#292929] text-white">
+      <Navbar labels={carousels} />
       <div className="flex">
-      <SideBar />
+        <SideBar />
         <main className="w-3/4 p-4">
+          <Hero src="" description="" title="" alt="" />
+          {carousels.map(({ label, collection }) => {
+            return (
+              <Carousel label={label} collection={collection} />
+            );
+          })}
         </main>
       </div>
     </div>
