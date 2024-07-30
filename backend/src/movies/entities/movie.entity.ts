@@ -1,6 +1,6 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
-import {Rating} from './rating.entity';
-import {Favorite} from './favorite.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Rating } from './rating.entity';
+import { Favorite } from '../../favorites/entities/favorite.entity';
 
 @Entity()
 export class Movie {
@@ -16,9 +16,12 @@ export class Movie {
   @Column({ type: 'int', nullable: true })
   releaseYear: number;
 
-  @OneToMany(()=> Rating, rating => rating.movie)
+  @OneToMany(() => Rating, (rating) => rating.movie)
   ratings: Rating[];
 
-  @OneToMany(()=> Favorite, favorite => favorite.movie)
+  @OneToMany(() => Favorite, (favorite) => favorite.movie)
   favorites: Favorite[];
+
+  @Column({ type: 'varchar', length: 100 })
+  genre: string;
 }
