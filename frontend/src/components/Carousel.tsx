@@ -8,9 +8,9 @@ type Props = {
 
 const Carousel = ({ collection, label }: Props) => {
   return (
-    <div className="mb-4">
+    <div className="mb-4 w-full">
       <h2 className="text-2xl mb-2">{label}</h2>
-      <div className="flex overflow-x-auto space-x-2 scrollbar-hide">
+      <div className="flex overflow-x-auto space-x-2 scrollbar-hide w-full">
         {collection.length > 0 && collection.map((movie: TMovie) => (
           <Movie key={movie.id} movie={movie} />
         ))}
@@ -20,4 +20,3 @@ const Carousel = ({ collection, label }: Props) => {
 }
 
 export default Carousel;
-
