@@ -1,18 +1,17 @@
 import type { TMovie, TMovieDetails } from "../types.d";
 import { useEffect, useState } from "react";
-import getDetails from "../utils/get_genre";
+import { FaHeart, FaBookmark, FaShare } from 'react-icons/fa';
+import CircularProgress from '@mui/joy/CircularProgress';
+import Typography from '@mui/joy/Typography';
 
 type Props = {
   movie: TMovie;
 }
 
 const Movie = ({ movie }: Props) => {
-  const [details, setDetails] = useState<TMovieDetails | null>(null);
 
   useEffect(() => {
     const fetchDetails = async () => {
-      const res = await getDetails(movie.id);
-      setDetails(res);
     }
     fetchDetails();
   }, [movie]);
@@ -25,16 +24,26 @@ const Movie = ({ movie }: Props) => {
         alt={movie.title}
       />
       <div className="p-3 flex flex-col">
-        <h3 className="font-bold text-sm text-white mb-1">{movie.title}</h3>
+        <h3 className="font-bold text-sm text-white mb-1">{movie.title.slice(0, 22)}</h3>
         <p className="text-xs text-gray-400 mb-2">
           {new Date(movie.release_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
         </p>
         <div className="flex justify-between items-center">
-          <span className="text-sm font-bold text-white">{movie.vote_average.toFixed(0)}%</span>
-          <div>
-            <button className="text-xl mr-2">❤️</button>
-            <button className="text-xl">🔖</button>
+
+          <div className="text-[9px] flex flex-col items-center">
+            <h4 className="mb-2">Rating</h4>
+            <CircularProgress color="success" size="sm" determinate value={movie.vote_average as number}>
+              <h2 className="text-white">{(movie.vote_average * 10).toFixed(1)}%</h2>
+            </CircularProgress>
           </div>
+          <button className="text-xl flex flex-col items-center">
+            <h4 className="text-[9px] mb-1">Favorites</h4>
+            <FaHeart />
+          </button>
+          <button className="text-xl flex flex-col items-center">
+            <h4 className="text-[9px] mb-1">Save</h4>
+            <FaBookmark />
+          </button>
         </div>
       </div>
     </div>
