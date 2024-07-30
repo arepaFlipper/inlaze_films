@@ -41,7 +41,7 @@ export default function App() {
   ];
 
   return (
-    <div className="w-full min-h-full bg-[#292929] text-white">
+    <div className="w-full bg-[#454545] text-white">
       <Navbar labels={carousels} />
       {(movies.length > 0) && (
         <Hero collection={movies} />
