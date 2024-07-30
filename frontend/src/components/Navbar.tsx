@@ -8,7 +8,7 @@ type Props = {
 
 const Navbar = ({ labels }: Props) => {
   return (
-    <div className="flex justify-evenly">
+    <div className="bg-black flex justify-evenly">
       <img src={logo} alt="inlaze_logo" />
       {
         labels.map(({ label }: { label: string }, idx) => {

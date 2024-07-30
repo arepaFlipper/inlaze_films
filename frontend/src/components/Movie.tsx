@@ -2,7 +2,6 @@ import type { TMovie, TMovieDetails } from "../types.d";
 import { useEffect, useState } from "react";
 import { FaHeart, FaBookmark, FaShare } from 'react-icons/fa';
 import CircularProgress from '@mui/joy/CircularProgress';
-import Typography from '@mui/joy/Typography';
 
 type Props = {
   movie: TMovie;

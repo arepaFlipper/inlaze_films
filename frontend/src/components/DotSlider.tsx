@@ -9,7 +9,7 @@ const DotSlider = () => {
           before:h-6 before:rounded-full 
           before:left-[-50%] before:top-[-50%]`;
   return (
-    <div className="flex gap-6 top-[60%] right-7">
+    <div className="flex items-center gap-3 top-[60%] right-7 w-1/4">
       {[1, 2, 3, 4, 5, 6, 7].map((dot, index) => {
         return (
           <AnchorLink
