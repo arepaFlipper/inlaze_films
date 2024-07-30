@@ -4,6 +4,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { User } from './users/entities/user.entity';
+import { MoviesModule } from './movies/movies.module';
+import { FavoritesModule } from './favorites/favorites.module';
+import { Movie } from './movies/entities/movie.entity';
+import { Rating } from './movies/entities/rating.entity';
+import { Favorite } from './favorites/entities/favorite.entity';
 
 @Module({
   imports: [
@@ -21,7 +26,7 @@ import { User } from './users/entities/user.entity';
           username: configService.get<string>('DB_USERNAME'),
           password: configService.get<string>('DB_PASSWORD'),
           database: configService.get<string>('DB_NAME'),
-          entities: [User],
+          entities: [User, Movie, Rating, Favorite],
           synchronize: configService.get<string>('NODE_ENV') !== 'production',
         };
 
@@ -31,6 +36,8 @@ import { User } from './users/entities/user.entity';
     }),
     AuthModule,
     UsersModule,
+    MoviesModule,
+    FavoritesModule,
   ],
 })
 export class AppModule {}
