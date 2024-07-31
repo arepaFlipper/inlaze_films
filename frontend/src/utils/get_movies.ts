@@ -1,7 +1,8 @@
 import axios from 'axios';
 import type { TPopular } from "../types"
 
-const API_KEY = 'a9b856b302ef45f0fc28033e35b71d6a';
+const BEARER_TOKEN = import.meta.env.VITE_ACCESS_TOKEN;
+const API_KEY_AUTH = import.meta.env.VITE_API_KEY_AUTH;
 const BASE_URL = 'https://api.themoviedb.org/3';
 
 const fetchMovies = async () => {

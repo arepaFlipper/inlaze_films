@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-const API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzM2JkYWM3NTQ3OGM4MjAyYjY0NzYyNTNjNDQ0MzMwMyIsInN1YiI6IjY2MjJmYzM2YWM2Yzc5MDE0YWFhMmM1YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.X9T299u4fNe-xNGLqOtTS0WI7KC2ONN_u7s5a_MaqfA";
+const API_KEY = import.meta.env.VITE_ACCESS_TOKEN;
 
 const movie_details = async (id: number) => {
   // const response = await axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}`)
