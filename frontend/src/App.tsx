@@ -3,6 +3,7 @@ import fetch_movies from "./utils/get_movies";
 import fetch_popular from "./utils/get_popular";
 import fetch_now_playing from "./utils/get_now_playing";
 import fetch_upcoming from "./utils/get_upcoming";
+import fetch_top_rated from "./utils/get_top_rated";
 import Hero from "./components/Hero";
 import SideBar from "./components/SideBar";
 import Navbar from "./components/Navbar";
@@ -17,7 +18,7 @@ export default function App() {
   const [popularMovies, setPopularMovies] = useState<DetailedMovie[]>([])
   const [nowPlayingMovies, setNowPlayingMovies] = useState<DetailedMovie[]>([])
   const [upcomingMovies, setUpcomingMovies] = useState<DetailedMovie[]>([])
-  const [topRatedMovies, setTopRatedMovies] = useState([])
+  const [topRatedMovies, setTopRatedMovies] = useState<DetailedMovie[]>([])
   const [favoriteMovies, setFavoriteMovies] = useState([])
 
   const [showPopup, setShowPopup] = useState(true);
@@ -30,13 +31,14 @@ export default function App() {
       const popular_response = await fetch_popular();
       const now_playing_response = await fetch_now_playing();
       const upcoming_response = await fetch_upcoming();
+      const top_rated_response = await fetch_top_rated();
       console.log(`🔛%cApp.tsx:31 - now_playing_response`,'font-weight:bold; background:#768900;color:#fff;'); //DELETEME:
       console.log(now_playing_response); // DELETEME:
       if (response.status === 200) {
         setPopularMovies(popular_response?.data || []);
         setNowPlayingMovies(now_playing_response?.data || []);
         setUpcomingMovies(upcoming_response?.data || []);
-        setTopRatedMovies([]);
+        setTopRatedMovies(top_rated_response?.data || []);
         setFavoriteMovies([]);
       }
     }
