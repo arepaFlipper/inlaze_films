@@ -1,23 +1,44 @@
 import axios from 'axios';
+import type { TPopular } from "../types"
 
-
-const API_KEY = "a9b856b302ef45f0fc28033e35b71d6a";
+const API_KEY = 'a9b856b302ef45f0fc28033e35b71d6a';
+const BASE_URL = 'https://api.themoviedb.org/3';
 
 const fetchMovies = async () => {
-  const response = await axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}`)
-  const data = response.data.results;
+  try {
+    const moviesRes = await axios.get(`${BASE_URL}/discover/movie?api_key=${API_KEY}&sort_by=popularity.desc`);
+    const popularRes = await axios.get(`${BASE_URL}/person/popular?api_key=${API_KEY}&language=en-US&page=1`);
+    const nowPlayingRes = await axios.get(`${BASE_URL}/movie/now_playing?api_key=${API_KEY}&language=en-US&page=1`);
+    const upcomingRes = await axios.get(`${BASE_URL}/movie/upcoming?api_key=${API_KEY}&language=en-US&page=1`);
+    const topRatedRes = await axios.get(`${BASE_URL}/movie/top_rated?api_key=${API_KEY}&language=en-US&page=1`);
 
-  return {
-    status: response.status,
-    data: {
-      results: data,
-      popular: data,
-      now_playing: data,
-      upcoming: data,
-      top_rated: data,
-      favorites: data,
-    }
-  };
-}
+    const movies = moviesRes.data.results;
+    const popular: TPopular[] = popularRes.data.results;
+    // const nowPlaying = nowPlayingRes.data.results;
+    const nowPlaying = []
+    // const upcoming = upcomingRes.data.results;
+    const upcoming = []
+    // const topRated = topRatedRes.data.results;
+    const topRated = []
+
+    return {
+      status: 200,
+      data: {
+        movies,
+        popular,
+        nowPlaying,
+        upcoming,
+        topRated,
+        favorites: [], 
+      }
+    };
+  } catch (error: unknown) {
+    return {
+      status: 500,
+      message: "Server Error",
+    };
+  }
+};
 
 export default fetchMovies;
+

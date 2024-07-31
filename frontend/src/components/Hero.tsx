@@ -1,10 +1,10 @@
-import { TMovie } from "../types";
+import { TMovie, DetailedMovie } from "../types";
 import Actions from "./Actions";
 import DotSlider from "./DotSlider";
 import CircularProgress from '@mui/joy/CircularProgress';
 
 type Props = {
-  collection: TMovie[];
+  collection: DetailedMovie[];
 }
 
 const Hero = ({ collection }: Props) => {
