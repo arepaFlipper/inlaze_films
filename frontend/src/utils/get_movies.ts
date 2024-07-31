@@ -2,7 +2,7 @@ import axios from 'axios';
 import type { TPopular } from "../types"
 
 const BEARER_TOKEN = import.meta.env.VITE_ACCESS_TOKEN;
-const API_KEY_AUTH = import.meta.env.VITE_API_KEY_AUTH;
+const API_KEY = import.meta.env.VITE_API_KEY_AUTH;
 const BASE_URL = 'https://api.themoviedb.org/3';
 
 const fetchMovies = async () => {
@@ -16,21 +16,13 @@ const fetchMovies = async () => {
     const movies = moviesRes.data.results;
     const popular: TPopular[] = popularRes.data.results;
     // const nowPlaying = nowPlayingRes.data.results;
-    const nowPlaying = []
-    // const upcoming = upcomingRes.data.results;
-    const upcoming = []
-    // const topRated = topRatedRes.data.results;
-    const topRated = []
 
     return {
       status: 200,
       data: {
         movies,
         popular,
-        nowPlaying,
-        upcoming,
-        topRated,
-        favorites: [], 
+        favorites: [],
       }
     };
   } catch (error: unknown) {

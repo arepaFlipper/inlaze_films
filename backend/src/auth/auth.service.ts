@@ -39,7 +39,10 @@ export class AuthService {
 
     user.guestSessionId = guestSessionId;
     await this.usersRepository.save(user);
-    console.log(`🎒%cauth.service.ts:42 - guestSessionId`,'font-weight:bold; background:#8a7500;color:#fff;'); //DELETEME:
+    console.log(
+      `🎒%cauth.service.ts:42 - guestSessionId`,
+      'font-weight:bold; background:#8a7500;color:#fff;',
+    ); //DELETEME:
     console.log(guestSessionId); // DELETEME:
 
     const verificationToken = await this.sendVerificationEmail(user);
@@ -111,8 +114,6 @@ export class AuthService {
         `https://api.themoviedb.org/3/authentication/guest_session/new?api_key=${this.tmdbApiKey}`,
         { headers: { accept: 'application/json' } },
       );
-      console.log(`🛵%cauth.service.ts:114 - response.data`,'font-weight:bold; background:#c63900;color:#fff;'); //DELETEME:
-      console.log(response.data); // DELETEME:
       return response.data.guest_session_id;
     } catch (error) {
       throw new Error('Failed to create guest session');

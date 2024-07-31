@@ -39,7 +39,9 @@ describe('AuthController', () => {
       };
       const registerDto: LoginUserDto = { email: 'test@example.com', password: 'password123' };
       
-      jest.spyOn(authService, 'register').mockImplementation(async () => result);
+      // jest
+      //   .spyOn(authService, 'register')
+      //   .mockImplementation(async () => result);
 
       expect(await controller.register(registerDto)).toBe(result);
       expect(authService.register).toHaveBeenCalledWith(registerDto.email, registerDto.password);

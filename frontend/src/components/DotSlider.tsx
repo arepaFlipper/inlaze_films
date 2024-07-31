@@ -10,7 +10,7 @@ const DotSlider = () => {
           before:left-[-50%] before:top-[-50%]`;
   return (
     <div className="flex items-center gap-2 top-[60%] right-7 w-1/4">
-      {[1, 2, 3, 4, 5, 6, 7].map((dot, index) => {
+      {[1, 2, 3, 4, 5, 6, 7].map((_, index) => {
         return (
           <AnchorLink
             className={`${(selectedPage === `${index}`) ? selectedStyles : "bg-gray-500 aspect-square rounded-full"} w-3 h-3 `}
