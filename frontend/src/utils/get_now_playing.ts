@@ -1,12 +1,11 @@
 import axios from 'axios';
-import { PopularMoviesApiResponse, DetailedMovie } from '../types'; 
+import { NowPlayingMoviesApiResponse, DetailedMovie } from '../types'; 
 
 const BEARER_TOKEN = import.meta.env.VITE_ACCESS_TOKEN;
-const API_KEY_AUTH = import.meta.env.VITE_API_KEY_AUTH;
 const BASE_URL = 'https://api.themoviedb.org/3';
 
-const fetchPopularMovies = async (): Promise<PopularMoviesApiResponse> => {
-  const response = await axios.get<PopularMoviesApiResponse>(`${BASE_URL}/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc`, {
+const fetchNowPlayingMovies = async (): Promise<NowPlayingMoviesApiResponse> => {
+  const response = await axios.get<NowPlayingMoviesApiResponse>(`${BASE_URL}/movie/now_playing?language=en-US&page=1`, {
     headers: {
       Authorization: `Bearer ${BEARER_TOKEN}`,
       Accept: 'application/json',
@@ -25,12 +24,12 @@ const fetchMovieDetails = async (id: number): Promise<DetailedMovie> => {
   return response.data;
 };
 
-const getPopularMoviesWithDetails = async () => {
+const getNowPlayingMoviesWithDetails = async () => {
   try {
-    const popularMoviesResponse = await fetchPopularMovies();
-    const popularMovies = popularMoviesResponse.results;
+    const nowPlayingMoviesResponse = await fetchNowPlayingMovies();
+    const nowPlayingMovies = nowPlayingMoviesResponse.results;
 
-    const detailedMoviesPromises = popularMovies.map(movie => fetchMovieDetails(movie.id));
+    const detailedMoviesPromises = nowPlayingMovies.map(movie => fetchMovieDetails(movie.id));
     const detailedMovies = await Promise.all(detailedMoviesPromises);
 
     return {
@@ -40,10 +39,10 @@ const getPopularMoviesWithDetails = async () => {
   } catch (error) {
     return {
       status: 500,
-      message: "Server error making request",
+      message: "error getting now playing",
     };
   }
 };
 
-export default getPopularMoviesWithDetails;
+export default getNowPlayingMoviesWithDetails;
 

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import fetch_movies from "./utils/get_movies";
 import fetch_popular from "./utils/get_popular";
+import fetch_now_playing from "./utils/get_now_playing";
 import Hero from "./components/Hero";
 import SideBar from "./components/SideBar";
 import Navbar from "./components/Navbar";
@@ -13,7 +14,7 @@ import type { TPopular, TMovieDetails, DetailedMovie } from "./types";
 export default function App() {
   const [movies, setMovies] = useState<TMovie[]>([])
   const [popularMovies, setPopularMovies] = useState<DetailedMovie[]>([])
-  const [nowPlayingMovies, setNowPlayingMovies] = useState([])
+  const [nowPlayingMovies, setNowPlayingMovies] = useState<DetailedMovie[]>([])
   const [upcomingMovies, setUpcomingMovies] = useState([])
   const [topRatedMovies, setTopRatedMovies] = useState([])
   const [favoriteMovies, setFavoriteMovies] = useState([])
@@ -26,9 +27,12 @@ export default function App() {
     const fetchMovies = async () => {
       const response = await fetch_movies();
       const popular_response = await fetch_popular();
+      const now_playing_response = await fetch_now_playing();
+      console.log(`🔛%cApp.tsx:31 - now_playing_response`,'font-weight:bold; background:#768900;color:#fff;'); //DELETEME:
+      console.log(now_playing_response); // DELETEME:
       if (response.status === 200) {
         setPopularMovies(popular_response?.data || []);
-        setNowPlayingMovies([]);
+        setNowPlayingMovies(now_playing_response?.data || []);
         setUpcomingMovies([]);
         setTopRatedMovies([]);
         setFavoriteMovies([]);

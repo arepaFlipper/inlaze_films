@@ -14,8 +14,6 @@ const Movie = ({ movie }: Props) => {
     }
     fetchDetails();
   }, [movie]);
-  console.log(`🩸%cMovie.tsx:17 - movie.title`,'font-weight:bold; background:#4fb000;color:#fff;'); //DELETEME:
-  console.log(movie); // DELETEME:
 
   return (
     <div key={movie.id} className="flex-shrink-0 flex flex-col w-[200px] bg-[#262626] rounded-lg overflow-hidden shadow-md">
